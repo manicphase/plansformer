@@ -34,8 +34,8 @@ def proxy(path):
     response = Response(resp.content, resp.status_code, headers)
 
     shh = SecurityHeaderHandler(response.headers)
-    shh.add_source("child-src", "https://manicphase.me")
-    shh.add_source("child-src", "https://tilvids.com")
+    shh.add_source("default-src", "https://manicphase.me")
+    shh.add_source("default-src", "https://tilvids.com")
 
     user_agent = request.headers.get('User-Agent').lower()
 
@@ -60,14 +60,20 @@ def proxy(path):
         jdata = json.loads(response.data)
         if jdata and modification_allowed:
             for t in transformers:
-                t(jdata).transform()                    
+                try:
+                    t(jdata).transform()  
+                except:
+                    pass                  
 
             searcher = ObjectSearcher(jdata)
             results = searcher.list_by_key("content")
             if not "accounts" in path:
-                fold_statuses(results)
+                try:
+                    fold_statuses(results)
+                except:
+                    pass
 
             response.data = str.encode(json.dumps(jdata))
     return response
 
-app.run(host='0.0.0.0', port=8182, debug=True, threaded=True)
+app.run(host='0.0.0.0', port=8182, debug=False, threaded=True)
