@@ -9,10 +9,10 @@ A config file needs creating in the root directory
 
 ```
 [twitter]
-BearerToken=TheTokenYouGetFromSigningUpForADeveloperAccountOnTwitter
+BearerToken = TheTokenYouGetFromSigningUpForADeveloperAccountOnTwitter
 
 [home]
-homeurl=https://TheSiteYouWantToProxy.com
+homeurl = https://TheSiteYouWantToProxy.com
 ```
 
 run `pip install -r requirements.txt` to install required packages
