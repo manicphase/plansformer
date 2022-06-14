@@ -16,7 +16,6 @@ class ObjectSearcherResult():
         #del self.json_obj[0]
         location = self.root
         for node in self.path:      
-            print("NODE",node)      
             if type(node) == int:
                 if location[node]:
                     del location[node]
@@ -33,7 +32,7 @@ class ObjectSearcherResult():
                         break
                 location = location[node]
         except:
-            import ipdb; ipdb.set_trace()
+            pass
             
 
     def split(self, value = None):
