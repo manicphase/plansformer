@@ -1,5 +1,6 @@
 import configparser
 from pprint import pprint
+import re
 from flask import request, Response, Flask
 import requests
 import json
@@ -36,6 +37,10 @@ def proxy(path):
     shh.add_source("child-src", "https://manicphase.me")
     shh.add_source("child-src", "https://tilvids.com")
 
+    user_agent = request.headers.get('User-Agent').lower()
+
+    modification_allowed = bool(re.search("(mozilla|chrome|chromium|safari)", user_agent))
+
     response.headers = shh.headers
 
     def fold_statuses(results):
@@ -53,7 +58,7 @@ def proxy(path):
 
     if ("statuses" in path) or ("timelines" in path):
         jdata = json.loads(response.data)
-        if jdata:
+        if jdata and modification_allowed:
             for t in transformers:
                 t(jdata).transform()                    
 
