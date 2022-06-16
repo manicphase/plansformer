@@ -19,10 +19,12 @@ homeurl = config["home"]["homeurl"]
 def proxy(path):
     print(request.url.replace(request.host_url, homeurl))
     data = request.get_data()
+    requester_headers={key: value for (key, value) in request.headers if key != 'Host'}
+    requester_headers["User-Agent"] = "plansformer"
     resp = requests.request(
         method=request.method,
         url=request.url.replace(request.host_url, homeurl),
-        headers={key: value for (key, value) in request.headers if key != 'Host'},
+        headers=requester_headers,
         data=data,
         cookies=request.cookies,
         allow_redirects=False)
@@ -55,25 +57,26 @@ def proxy(path):
                 del(results[i]) 
             i -= 1
 
+    if modification_allowed:
+        if ("statuses" in path) or ("timelines" in path):
+            jdata = json.loads(response.data)
+            if jdata:
+                for t in transformers:
+                    try:
+                        t(jdata).transform()  
+                    except:
+                        pass                  
 
-    if ("statuses" in path) or ("timelines" in path):
-        jdata = json.loads(response.data)
-        if jdata and modification_allowed:
-            for t in transformers:
-                try:
-                    t(jdata).transform()  
-                except:
-                    pass                  
+                searcher = ObjectSearcher(jdata)
+                results = searcher.list_by_key("content")
+                if not "accounts" in path:
+                    try:
+                        fold_statuses(results)
+                    except:
+                        pass    
+                response.data = str.encode(json.dumps(jdata))
 
-            searcher = ObjectSearcher(jdata)
-            results = searcher.list_by_key("content")
-            if not "accounts" in path:
-                try:
-                    fold_statuses(results)
-                except:
-                    pass
-
-            response.data = str.encode(json.dumps(jdata))
     return response
 
-app.run(host='0.0.0.0', port=8182, debug=False, threaded=True)
+debug = config.get("dev","debug", fallback="False") == "True"
+app.run(host='0.0.0.0', port=8182, debug=debug, threaded=True)
