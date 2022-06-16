@@ -6,7 +6,7 @@ import requests
 import json
 from helpers.object_searcher import ObjectSearcher
 from helpers.security_header_handler import SecurityHeaderHandler
-from transformers import transformers
+from transformers import transformers, peertube_transformer
 
 app = Flask(__name__, static_folder=None)
 
@@ -34,8 +34,8 @@ def proxy(path):
     response = Response(resp.content, resp.status_code, headers)
 
     shh = SecurityHeaderHandler(response.headers)
-    shh.add_source("default-src", "https://manicphase.me")
-    shh.add_source("default-src", "https://tilvids.com")
+    for site in peertube_transformer.target_sites:
+        shh.add_source("default-src", site)
 
     user_agent = request.headers.get('User-Agent').lower()
 

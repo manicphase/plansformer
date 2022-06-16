@@ -1,6 +1,6 @@
 from transformers.base_transformer import BaseTransformer, TransformerResultBundle
 
-target_sites = ["https://manicphase.me","https://tilvids.com","https://videos.trom.tf"]
+target_sites = ["https://video.manicphase.me","https://diode.zone","https://tilvids.com","https://videos.trom.tf"]
 
 class PeertubeTransformer(BaseTransformer):
     def __init__(self, response_data):
