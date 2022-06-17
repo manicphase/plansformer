@@ -1,19 +1,18 @@
 class ObjectSearcherResult():
-    def __init__(self, json_obj, root, key, path):
-        self.json_obj = json_obj
+    def __init__(self, parent, root, key, path):
+        self.parent = parent
         self.key = key
         self.path = path
         self.root = root
         print(path)
         
     def __repr__(self):
-        return self.json_obj[self.key]
+        return self.parent[self.key]
 
     def __contains__(self, value):
-        return self.json_obj[self.key].__contains__(value)
+        return self.parent[self.key].__contains__(value)
 
     def delete(self):
-        #del self.json_obj[0]
         location = self.root
         for node in self.path:      
             if type(node) == int:
@@ -36,10 +35,10 @@ class ObjectSearcherResult():
             
 
     def split(self, value = None):
-        return self.json_obj[self.key].split(value)
+        return self.parent[self.key].split(value)
     
     def set(self, value):
-        self.json_obj[self.key] = value
+        self.parent[self.key] = value
 
 
 class ObjectSearcher():

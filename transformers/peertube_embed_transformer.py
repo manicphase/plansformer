@@ -2,9 +2,9 @@ from transformers.base_transformer import BaseTransformer, TransformerResultBund
 
 target_sites = ["https://video.manicphase.me","https://diode.zone","https://tilvids.com","https://videos.trom.tf"]
 
-class PeertubeTransformer(BaseTransformer):
+class PeertubeEmbedTransformer(BaseTransformer):
     def __init__(self, response_data):
-        super(PeertubeTransformer, self).__init__(response_data)
+        super(PeertubeEmbedTransformer, self).__init__(response_data)
         self.target_sites = self.target_sites + [ts+"/w/" for ts in target_sites]
 
     def transform_one(self, result: TransformerResultBundle):

@@ -5,7 +5,7 @@ This is is experimental software still in development. Useful so far on small in
 
 ## to play around with it
 
-A config file needs creating in the root directory
+A `config.conf` file needs creating in the root directory
 
 ```
 [twitter]
@@ -24,6 +24,8 @@ run `python injector.py` to run the server
 go to `http://localhost:8182` to see the plansformed version of your pleroma instance
 
 ## to run as reverse proxy
+
+* remember to change the `homeurl` value to your internal address; probably "http://localhost:4000 *
 
 assuming you've followed the standard installation instructions to install pleroma, you can make the following changes to your pleroma nginx config.
 
