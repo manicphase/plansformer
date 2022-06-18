@@ -58,7 +58,7 @@ def proxy(path):
             i -= 1
 
     if modification_allowed:
-        if ("statuses" in path) or ("timelines" in path)or ("search" in path):
+        if ("statuses" in path) or ("timelines" in path) or ("search" in path) or ("context" in path):
             jdata = json.loads(response.data)
             if jdata:
                 for t in transformers:
