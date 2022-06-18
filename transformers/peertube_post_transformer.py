@@ -26,7 +26,8 @@ class PeertubePostTransformer(BaseTransformer):
         results = []
         for rc in relevant_content:
             tree = BeautifulSoup(str(rc[0]), "html.parser")
-            results.append([rc[0], tree])
+            if rc[0].parent.get("media_attachments"):
+                results.append([rc[0], tree])
         return results
 
     def transform(self):
@@ -39,6 +40,10 @@ class PeertubePostTransformer(BaseTransformer):
             new_embed_link = "https://" + original_path.split("/")[2] + "/videos/embed/" + video_id
             title_node = tree.find_all("a")[0]
             title_node.insert_after(template.format(new_embed_link))
+            try:
+                node.delete_media()
+            except:
+                pass
             node.set(html.unescape(str(tree)))
-            del node.parent["media_attachments"]
-            json_node.set(html.unescape(str(all_nodes[json_node]["tree"])))
+
+        return

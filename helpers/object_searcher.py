@@ -21,17 +21,30 @@ class ObjectSearcherResult():
                 break
             location = location[node]
 
-    def delete_card(self):
+    def _delete_sibling(self, tag):
+        print("DELETE", tag, self.path)
+        if not self.path:
+            try:
+                del self.root[tag]
+            except:
+                pass
         location = self.root
         try:
             for node in self.path:
                 if type(location) != list:
-                    if "card" in location.keys():
-                        del location["card"]
+                    if tag in location.keys():
+                        print("DELETING", location[tag])
+                        del location[tag]
                         break
                 location = location[node]
         except:
             pass
+    
+    def delete_card(self):
+        self._delete_sibling("card")
+
+    def delete_media(self):
+        self._delete_sibling("media_attachments")
             
 
     def split(self, value = None):
