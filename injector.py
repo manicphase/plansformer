@@ -51,7 +51,7 @@ def proxy(path):
             
         i = len(results) -1
         while i > 0:
-            if results[i-1].json_obj["account"]["acct"] == results[i].json_obj["account"]["acct"]:
+            if results[i-1].parent["account"]["acct"] == results[i].parent["account"]["acct"]:
                 results[i-1].set(str(results[i]) + "<hr>" + str(results[i-1]))
                 results[i].delete() 
                 del(results[i]) 

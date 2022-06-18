@@ -69,6 +69,9 @@ class ObjectSearcher():
 
         
     def list_by_key(self, key, by_type=str):
+        if type (self.json_obj) != list:
+            if key in self.json_obj.keys():
+                return [ObjectSearcherResult(self.json_obj, self.json_obj, key, [])]
         self.results = []
         self.by_type = by_type
         self._search(self.json_obj,key)
