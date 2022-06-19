@@ -1,10 +1,10 @@
 import html
-from helpers.object_searcher import ObjectSearcher, ObjectSearcherResult
+from helpers.object_searcher import ObjectSearcher, AdvancedObjectSearcherResult
 import re
 from bs4 import BeautifulSoup
 
 class TransformerResultBundle():
-    def __init__(self, tree, content_object: ObjectSearcherResult, link):
+    def __init__(self, tree, content_object: AdvancedObjectSearcherResult, link):
         self.tree = tree
         self.content_object = content_object
         self.link = link

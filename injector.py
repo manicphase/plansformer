@@ -60,6 +60,7 @@ def proxy(path):
     if modification_allowed:
         if ("statuses" in path) or ("timelines" in path) or ("search" in path) or ("context" in path):
             jdata = json.loads(response.data)
+            #import ipdb; ipdb.set_trace()
             if jdata:
                 for t in transformers:
                     try:
